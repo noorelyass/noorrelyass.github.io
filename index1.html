@@ -1,51 +1,595 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home - Noor Elyass</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Noor Elyass — Computer Science & Mathematical Sciences</title>
+<meta name="description" content="Noor Elyass — CS & Math student at the University of Toronto. Incoming Data Engineer Intern at TD Bank." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #f5f1ea;
+    --bg-alt: #ede7dc;
+    --ink: #1a1a1a;
+    --ink-soft: #5a5a58;
+    --rule: #d9d3c7;
+    --accent: #b5391f;
+  }
 
-  <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet' type='text/css'>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.35;
+    z-index: 1;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .mono { font-family: 'JetBrains Mono', monospace; font-size: 0.72em; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-soft); }
+
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 0 48px; position: relative; z-index: 2; }
+
+  /* ─── Nav ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    padding: 28px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    mix-blend-mode: difference;
+    color: #f5f1ea;
+  }
+  nav .brand { font-family: 'Fraunces', serif; font-style: italic; font-size: 18px; }
+  nav ul { display: flex; gap: 32px; list-style: none; }
+  nav a { color: inherit; text-decoration: none; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.85; transition: opacity 0.2s; }
+  nav a:hover { opacity: 1; }
+
+  /* ─── Hero ─── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 120px 0 80px;
+  }
+
+  .hero-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 80px;
+    animation: fadeUp 0.9s ease 0.1s backwards;
+  }
+
+  h1.display {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: clamp(56px, 11vw, 168px);
+    line-height: 0.92;
+    letter-spacing: -0.035em;
+    margin-bottom: 48px;
+  }
+  h1.display .italic { font-style: italic; font-weight: 400; }
+  h1.display .accent { color: var(--accent); }
+  h1.display span { display: block; animation: fadeUp 1s ease backwards; }
+  h1.display span:nth-child(1) { animation-delay: 0.2s; }
+  h1.display span:nth-child(2) { animation-delay: 0.35s; padding-left: 12vw; }
+  h1.display span:nth-child(3) { animation-delay: 0.5s; }
+
+  .hero-foot {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    margin-top: auto;
+    padding-top: 80px;
+    border-top: 1px solid var(--rule);
+    animation: fadeUp 1s ease 0.7s backwards;
+  }
+  .hero-foot p { max-width: 38ch; }
+  .hero-foot .right { justify-self: end; text-align: right; }
+
+  /* ─── Sections ─── */
+  section { padding: 140px 0; position: relative; }
+
+  .section-head {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 48px;
+    margin-bottom: 72px;
+    align-items: baseline;
+  }
+  .section-head h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: clamp(40px, 6vw, 72px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  /* ─── About ─── */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 48px;
+  }
+  .about-body { max-width: 60ch; font-size: 22px; line-height: 1.6; color: var(--ink); }
+  .about-body p + p { margin-top: 1.2em; }
+  .about-body em { color: var(--accent); font-style: italic; }
+
+  /* ─── Experience entries ─── */
+  .entries { display: flex; flex-direction: column; }
+  .entry {
+    display: grid;
+    grid-template-columns: 220px 1fr 180px;
+    gap: 48px;
+    padding: 40px 0;
+    border-top: 1px solid var(--rule);
+    align-items: baseline;
+    transition: padding-left 0.4s ease;
+  }
+  .entry:last-child { border-bottom: 1px solid var(--rule); }
+  .entry:hover { padding-left: 16px; }
+  .entry .org { display: flex; flex-direction: column; gap: 4px; }
+  .entry .org .org-name { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink); }
+  .entry .org .org-loc { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+  .entry h3 { font-family: 'Fraunces', serif; font-weight: 400; font-size: 26px; letter-spacing: -0.01em; line-height: 1.2; }
+  .entry h3 .role { display: block; font-style: italic; font-weight: 300; color: var(--ink-soft); font-size: 17px; margin-top: 6px; }
+  .entry .when { text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+  .entry ul { list-style: none; margin-top: 16px; display: flex; flex-direction: column; gap: 10px; }
+  .entry ul li { color: var(--ink-soft); font-size: 16px; line-height: 1.55; padding-left: 18px; position: relative; max-width: 62ch; }
+  .entry ul li::before { content: '—'; position: absolute; left: 0; color: var(--accent); }
+  .entry .stack { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .entry .stack span { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); padding: 4px 10px; border: 1px solid var(--rule); border-radius: 100px; }
+
+  /* ─── Education (single block) ─── */
+  .edu {
+    display: grid;
+    grid-template-columns: 220px 1fr 180px;
+    gap: 48px;
+    padding: 40px 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    align-items: baseline;
+  }
+  .edu .org { display: flex; flex-direction: column; gap: 4px; }
+  .edu .org .org-name { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink); }
+  .edu .org .org-loc { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+  .edu h3 { font-family: 'Fraunces', serif; font-weight: 400; font-size: 28px; letter-spacing: -0.01em; line-height: 1.2; }
+  .edu h3 .role { display: block; font-style: italic; font-weight: 300; color: var(--ink-soft); font-size: 17px; margin-top: 6px; }
+  .edu .label { display: block; margin-top: 22px; margin-bottom: 8px; }
+  .edu p { color: var(--ink-soft); font-size: 16px; max-width: 62ch; }
+  .edu .when { text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+
+  /* ─── Projects ─── */
+  .projects { display: grid; grid-template-columns: repeat(2, 1fr); gap: 64px 48px; }
+  .project { display: flex; flex-direction: column; gap: 16px; }
+  .project .num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--accent); letter-spacing: 0.15em; }
+  .project h3 { font-family: 'Fraunces', serif; font-weight: 400; font-size: 30px; line-height: 1.15; letter-spacing: -0.015em; }
+  .project p { color: var(--ink-soft); max-width: 44ch; font-size: 16px; }
+  .project .stack { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
+  .project .stack span { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-soft); padding: 4px 10px; border: 1px solid var(--rule); border-radius: 100px; }
+
+  /* ─── Skills ─── */
+  .skills-groups { display: flex; flex-direction: column; gap: 56px; }
+  .skills-group .group-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .skills-group h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 28px;
+    letter-spacing: -0.01em;
+  }
+  .skills-group .count { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--ink-soft); letter-spacing: 0.1em; }
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+  }
+  .card {
+    background: var(--bg-alt);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+    cursor: default;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent);
+    background: #fff;
+  }
+  .card .label {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: var(--ink);
+    letter-spacing: -0.005em;
+  }
+  .card .meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-soft);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* ─── Contact ─── */
+  .contact { padding: 180px 0 120px; text-align: center; }
+  .contact .pre { margin-bottom: 32px; display: inline-block; }
+  .contact h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: clamp(48px, 9vw, 128px);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 56px;
+  }
+  .contact h2 .italic { font-style: italic; }
+  .contact a.email {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: clamp(28px, 4vw, 48px);
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 6px;
+    transition: opacity 0.2s;
+    word-break: break-word;
+  }
+  .contact a.email:hover { opacity: 0.7; }
+  .contact .socials { margin-top: 64px; display: flex; justify-content: center; flex-wrap: wrap; gap: 32px; }
+  .contact .socials a { color: var(--ink); text-decoration: none; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; border-bottom: 1px solid transparent; padding-bottom: 2px; transition: border-color 0.2s; }
+  .contact .socials a:hover { border-color: var(--ink); }
+
+  /* ─── Footer ─── */
+  footer {
+    padding: 32px 48px;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* ─── Animations ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.9s ease, transform 0.9s ease; }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+
+  /* ─── Responsive ─── */
+  @media (max-width: 768px) {
+    .wrap { padding: 0 24px; }
+    nav { padding: 20px 24px; }
+    nav ul { gap: 16px; }
+    .hero-foot, .section-head, .about-grid { grid-template-columns: 1fr; gap: 24px; }
+    .hero-foot .right { justify-self: start; text-align: left; }
+    .entry, .edu { grid-template-columns: 1fr; gap: 12px; }
+    .entry .when, .edu .when { text-align: left; }
+    .projects { grid-template-columns: 1fr; gap: 48px; }
+    h1.display span:nth-child(2) { padding-left: 0; }
+    footer { padding: 24px; flex-direction: column; gap: 8px; }
+    section { padding: 100px 0; }
+  }
+</style>
 </head>
-
 <body>
 
-  <header class="site-header">
+<nav>
+  <span class="brand">N.E</span>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
 
-    <h1 class="main-title">Noor Elyass,</h1>
-    <h2 class="sub-title">Computer Science Student @ the University of Toronto</h2>
+<div class="wrap">
 
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-meta">
+      <span class="mono">Portfolio — 2026</span>
+      <span class="mono">Toronto, ON</span>
+    </div>
+
+    <h1 class="display">
+      <span>Noor</span>
+      <span class="italic">Elyass,</span>
+      <span>building <span class="accent">software.</span></span>
+    </h1>
+
+    <div class="hero-foot">
+      <p>Computer Science &amp; Mathematical Sciences at the University of Toronto. Interested in applied ML, distributed systems, and resilient infrastructure.</p>
+      <p class="right mono">Incoming — TD Bank, Summer 2026<br/>Open to new grad — 2027</p>
+    </div>
   </header>
 
-  <hr>
-  
-  <p>
-    A curious and passionate individual who loves to explore the world of technology and its endless possibilities.
-  </p>
- 
- <br>
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-head reveal">
+      <span class="mono">01 — About</span>
+      <h2>The short version.</h2>
+    </div>
+    <div class="about-grid">
+      <span class="mono reveal">Bio</span>
+      <div class="about-body reveal">
+        <p>I'm a final-year student at U of T pursuing an Honours BSc with a double major in <em>Computer Science</em> and <em>Mathematical Sciences</em>, and a minor in Statistics.</p>
+        <p>My work has spanned capital markets technology at <em>CIBC</em>, machine learning research at the University of Toronto and CAMH, and software engineering at the <em>Qatar Computing Research Institute</em>. This summer I'll be joining <em>TD Bank</em> as a Data Engineer Intern.</p>
+        <p>I'm drawn to systems that quietly do their job well — the ones people can rely on.</p>
+      </div>
+    </div>
+  </section>
 
- <hr>
- <h5>Experience</h5>
- <hr>
-<br>
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-head reveal">
+      <span class="mono">02 — Experience</span>
+      <h2>Where I've been.</h2>
+    </div>
+    <div class="entries">
 
-<h3>Software Developer Intern @ XYZ Company</h3>
-<p>June 2023 - August 2023</p> 
+      <div class="entry reveal">
+        <div class="org">
+          <span class="org-name">TD Bank</span>
+          <span class="org-loc">Toronto, ON</span>
+        </div>
+        <div>
+          <h3>Data Engineer Intern <span class="role">Incoming</span></h3>
+          <ul>
+            <li>Joining the data engineering team for the summer term.</li>
+          </ul>
+        </div>
+        <span class="when">May 2026 — Aug 2026</span>
+      </div>
 
-<hr>
+      <div class="entry reveal">
+        <div class="org">
+          <span class="org-name">CIBC Capital Markets</span>
+          <span class="org-loc">Toronto, ON</span>
+        </div>
+        <div>
+          <h3>Global Markets Analyst Intern <span class="role">Technology</span></h3>
+          <ul>
+            <li>Engineered Python automation and data-processing pipelines using modular design patterns and efficient data structures, reducing execution time of six recurring processes from 30–60 minutes to under 3 minutes.</li>
+            <li>Debugged and resolved production issues in cross-border payments by analyzing SQL logs and API traces, performing root-cause analysis, and applying secure coding practices.</li>
+            <li>Optimized internal software pipelines supporting cross-border payments, improving system efficiency and reliability.</li>
+            <li>Authored technical documentation and delivered training to internal and external stakeholders, boosting usability.</li>
+            <li>Developed dashboards to surface anomalies and latency spikes, improving monitoring and incident response.</li>
+          </ul>
+          <div class="stack">
+            <span>Python</span><span>Selenium</span><span>pandas</span><span>Power BI</span><span>SQL</span><span>APIs</span>
+          </div>
+        </div>
+        <span class="when">Sep 2024 — Aug 2025</span>
+      </div>
 
-<h3>Software Developer Intern @ XYZ Company</h3>
-<p>June 2023 - August 2023</p> 
+      <div class="entry reveal">
+        <div class="org">
+          <span class="org-name">Kundur Research Group</span>
+          <span class="org-loc">U of T &amp; CAMH</span>
+        </div>
+        <div>
+          <h3>Machine Learning Research Intern</h3>
+          <ul>
+            <li>Developed data and feature-processing components within a feature-based multi-task learning pipeline, processing 300K+ accelerometer time-series samples and 1,200+ clinical assessments to predict depression relapse and comorbidities.</li>
+            <li>Engineered 40+ physiological and behavioural features from raw wearable accelerometer data using GGIR outputs (sleep and circadian metrics, activity rhythms), improving label signal quality by ~15%.</li>
+            <li>Built preprocessing workflows (missing-data handling, temporal windowing, scaling), reducing errors by ~18%.</li>
+            <li>Implemented and ran stratified cross-validation experiments to evaluate model robustness across folds.</li>
+            <li>Collaborated directly with psychiatrists to validate feature definitions and refine clinically interpretable inputs.</li>
+          </ul>
+          <div class="stack">
+            <span>Python</span><span>scikit-learn</span><span>pandas</span><span>NumPy</span><span>Matplotlib</span>
+          </div>
+        </div>
+        <span class="when">May 2024 — Sep 2024</span>
+      </div>
 
-<hr>
+      <div class="entry reveal">
+        <div class="org">
+          <span class="org-name">Qatar Computing Research Institute</span>
+          <span class="org-loc">Doha, Qatar</span>
+        </div>
+        <div>
+          <h3>Software Engineering Intern <span class="role">Qatar Foundation</span></h3>
+          <ul>
+            <li>Developed a machine learning pipeline for ActiSLEEP, a personalized physical activity recommendation system, analyzing 1,000+ patient records spanning physical activity, sleep, and health metrics.</li>
+            <li>Implemented k-NN classification and similarity measures (Wasserstein, Euclidean, DTW), achieving ~82% accuracy in clustering patient activity–sleep patterns.</li>
+            <li>Applied Python Optimal Transport to generate personalized plans, supported by histogram and time-series visualizations, enabling healthcare professionals to interpret recommendations efficiently.</li>
+          </ul>
+          <div class="stack">
+            <span>Python</span><span>scikit-learn</span><span>NumPy</span><span>pandas</span><span>Optimal Transport</span>
+          </div>
+        </div>
+        <span class="when">May 2023 — Jul 2023</span>
+      </div>
 
-<h3>Software Developer Intern @ XYZ Company</h3>
-<p>June 2023 - August 2023</p> 
+    </div>
+  </section>
 
-<hr>
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="section-head reveal">
+      <span class="mono">03 — Education</span>
+      <h2>Studies.</h2>
+    </div>
+    <div class="edu reveal">
+      <div class="org">
+        <span class="org-name">University of Toronto</span>
+        <span class="org-loc">Toronto, ON</span>
+      </div>
+      <div>
+        <h3>Honours Bachelor of Science <span class="role">Double Major: Computer Science &amp; Mathematical Sciences · Minor: Statistics</span></h3>
+        <span class="mono label">Relevant Coursework</span>
+        <p>Data Structures &amp; Analysis, Algorithms &amp; Complexity, Operating Systems, Databases, Machine Learning.</p>
+        <span class="mono label">Activities</span>
+        <p>Director of Events, Women in Computer Science (2022–23). Co-founder &amp; Director of Events, Sudanese Student Union (2022–Present). Internal Outreach Coordinator, National Society of Black Engineers (2024–Present).</p>
+      </div>
+      <span class="when">Expected Jun 2027</span>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-head reveal">
+      <span class="mono">04 — Selected Work</span>
+      <h2>Things I've built.</h2>
+    </div>
+    <div class="projects">
+      <article class="project reveal">
+        <span class="num">/ 01</span>
+        <h3>Team Availability Scheduler</h3>
+        <p>A scheduling web app supporting user authentication, contacts, and availability aggregation via PostgreSQL-backed REST APIs. Workflows validated with 100+ simulated submissions.</p>
+        <div class="stack"><span>Java</span><span>PostgreSQL</span><span>REST</span></div>
+      </article>
+      <article class="project reveal">
+        <span class="num">/ 02</span>
+        <h3>Ride-Sharing Dispatch System</h3>
+        <p>Spatial hashing and priority-based dispatch algorithms matching drivers to riders by ETA and distance — improving assignment efficiency by ~35% under 600+ simulated requests.</p>
+        <div class="stack"><span>Python</span><span>Algorithms</span></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-head reveal">
+      <span class="mono">05 — Skills</span>
+      <h2>The toolkit.</h2>
+    </div>
+
+    <div class="skills-groups">
+
+      <div class="skills-group reveal">
+        <div class="group-head">
+          <h3>Languages</h3>
+          <span class="count">10</span>
+        </div>
+        <div class="cards">
+          <div class="card"><span class="label">Python</span><span class="meta">Primary</span></div>
+          <div class="card"><span class="label">Java</span><span class="meta">Language</span></div>
+          <div class="card"><span class="label">C++</span><span class="meta">Language</span></div>
+          <div class="card"><span class="label">JavaScript</span><span class="meta">Language</span></div>
+          <div class="card"><span class="label">SQL</span><span class="meta">Query</span></div>
+          <div class="card"><span class="label">C</span><span class="meta">Language</span></div>
+          <div class="card"><span class="label">R</span><span class="meta">Statistical</span></div>
+          <div class="card"><span class="label">Assembly</span><span class="meta">Low-level</span></div>
+          <div class="card"><span class="label">Verilog</span><span class="meta">HDL</span></div>
+          <div class="card"><span class="label">VBA</span><span class="meta">Scripting</span></div>
+        </div>
+      </div>
+
+      <div class="skills-group reveal">
+        <div class="group-head">
+          <h3>Libraries &amp; Frameworks</h3>
+          <span class="count">9</span>
+        </div>
+        <div class="cards">
+          <div class="card"><span class="label">NumPy</span><span class="meta">Numerical</span></div>
+          <div class="card"><span class="label">pandas</span><span class="meta">Data</span></div>
+          <div class="card"><span class="label">scikit-learn</span><span class="meta">ML</span></div>
+          <div class="card"><span class="label">PyTorch</span><span class="meta">Deep Learning</span></div>
+          <div class="card"><span class="label">Matplotlib</span><span class="meta">Viz</span></div>
+          <div class="card"><span class="label">Selenium</span><span class="meta">Automation</span></div>
+          <div class="card"><span class="label">React</span><span class="meta">Frontend</span></div>
+          <div class="card"><span class="label">Django</span><span class="meta">Backend</span></div>
+          <div class="card"><span class="label">HTML / CSS</span><span class="meta">Web</span></div>
+        </div>
+      </div>
+
+      <div class="skills-group reveal">
+        <div class="group-head">
+          <h3>Concepts</h3>
+          <span class="count">4</span>
+        </div>
+        <div class="cards">
+          <div class="card"><span class="label">Data Structures &amp; Algorithms</span><span class="meta">Foundation</span></div>
+          <div class="card"><span class="label">APIs</span><span class="meta">Integration</span></div>
+          <div class="card"><span class="label">Distributed Systems</span><span class="meta">Architecture</span></div>
+          <div class="card"><span class="label">Time-Series Analysis</span><span class="meta">Modelling</span></div>
+        </div>
+      </div>
+
+      <div class="skills-group reveal">
+        <div class="group-head">
+          <h3>Spoken Languages</h3>
+          <span class="count">3</span>
+        </div>
+        <div class="cards">
+          <div class="card"><span class="label">English</span><span class="meta">Fluent</span></div>
+          <div class="card"><span class="label">Arabic</span><span class="meta">Fluent</span></div>
+          <div class="card"><span class="label">French</span><span class="meta">B2 — Proficient</span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="contact">
+    <div class="reveal">
+      <span class="mono pre">06 — Get in touch</span>
+      <h2>Let's <span class="italic">talk.</span></h2>
+      <a href="mailto:noor.elyass@mail.utoronto.ca" class="email">noor.elyass@mail.utoronto.ca</a>
+      <div class="socials">
+        <a href="https://github.com/noorelyass" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://linkedin.com/in/noorelyass" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="tel:+14168216323">+1 (416) 821-6323</a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <span class="mono">© 2026 Noor Elyass</span>
+  <span class="mono">Toronto, ON</span>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
 
 </body>
 </html>
